@@ -14,7 +14,7 @@ db.serialize(() => {
       base_id TEXT,
       creation_date TEXT,
       last_update_date TEXT,
-      artist TEXT,
+      artists TEXT,
       comments TEXT
     )
   `);
@@ -83,7 +83,7 @@ const insertMetadataBatch = async (metadataBatch) => {
           getBaseId(metadata.spriteId), // base_id
           metadata.creationDate,     // creation_date
           metadata.lastUpdateDate,   // last_update_date
-          metadata.artist,           // artist
+          metadata.artists,           // artists
           metadata.comments          // comments
         );
         return acc;
@@ -96,7 +96,7 @@ const insertMetadataBatch = async (metadataBatch) => {
           base_id,
           creation_date,
           last_update_date,
-          artist,
+          artists,
           comments
         ) VALUES ${placeholders}
       `;
@@ -140,8 +140,8 @@ const readCSV = async (filePath) => {
     const rows = fileContent.trim().split('\n');
 
     return rows.map((line) => {
-      const [id, artist, sprite_type, comments] = line.split(',').map(item => item.trim());
-      return { id, artist, sprite_type, comments };
+      const [id, artists, sprite_type, comments] = line.split(',').map(item => item.trim());
+      return { id, artists, sprite_type, comments };
     });
   } catch (error) {
     console.error(`Error reading CSV file ${filePath}: ${error}`);
@@ -184,7 +184,7 @@ const processFilesInChunks = async () => {
             sprite_type: credits.sprite_type || null,
             creationDate: metadata.creationDate,
             lastUpdateDate: metadata.lastUpdateDate,
-            artist: credits.artist || null,
+            artists: credits.artists || null,
             comments: credits.comments || null
           });
 
